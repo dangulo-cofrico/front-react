@@ -1,22 +1,24 @@
 import React, { Component } from "react";
-import "./App.css";
+import "./Empleado.css";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
-const url = "http://localhost:8080/tipos/";
+const url = "http://localhost:8080/empleados";
 
-class Tipos extends Component {
+class Empleado extends Component {
     state = {
         data: [],
         modalInsertar: false,
         modalEliminar: false,
         form: {
           id: '',
+          dni: '',
           nombre: '',
-          tipoModal:''
+          telefono: '',
+          empleadoModal:''
         },
       };
     
@@ -60,12 +62,14 @@ class Tipos extends Component {
         this.setState({ modalInsertar: !this.state.modalInsertar });
       };
     
-      seleccionarTipo = (tipo) => {
+      seleccionarEmpleado = (empleado) => {
         this.setState({
           tipoModal: "actualizar",
           form: {
-            id: tipo.id,
-            nombre: tipo.nombre
+            id : empleado.id,
+            dni : empleado.dni,
+            nombre : empleado.nombre,
+            telefono : empleado.telefono
           },
         });
       };
@@ -86,17 +90,19 @@ class Tipos extends Component {
         const { form } = this.state;
         return (
           <div className="App">
-            <br /><button className="btn btn-success" onClick={() => {this.setState({form:null,tipoModal: 'insertar'});this.modalInsertar()}}> Insertar nuevo Tipo</button><br /><br />
+            <br /><button className="btn btn-success" onClick={() => {this.setState({form:null,empleadoModal: 'insertar'});this.modalInsertar()}}> Insertar nueva Empleado</button><br /><br />
             <table className="table">
-              <thead><tr><th>Nombre</th><th>Acciones</th></tr></thead>
+              <thead><tr><th>DNI</th><th>Nombre</th><th>Teléfono</th><th>Acciones</th></tr></thead>
               <tbody>
-                {this.state.data.map((tipo) => {
+                {this.state.data.map((empleado) => {
                   return (
                     <tr>
-                      <td>{tipo.nombre}</td>
+                      <td>{empleado.dni}</td>
+                      <td>{empleado.nombre}</td>
+                      <td>{empleado.telefono}</td>
                       <td>
-                        <button className="btn btn-primary" onClick={() => {this.seleccionarTipo(tipo);this.modalInsertar()}}><FontAwesomeIcon icon={faEdit} /></button>{" "}
-                        <button className="btn btn-danger" onClick={() => {this.seleccionarTipo(tipo); this.setState({ modalEliminar: true });}}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                        <button className="btn btn-primary" onClick={() => {this.seleccionarEmpleado(empleado);this.modalInsertar()}}><FontAwesomeIcon icon={faEdit} /></button>{" "}
+                        <button className="btn btn-danger" onClick={() => {this.seleccionarEmpleado(empleado); this.setState({ modalEliminar: true });}}><FontAwesomeIcon icon={faTrashAlt} /></button>
                       </td>
                     </tr>
                   );})}
@@ -111,23 +117,27 @@ class Tipos extends Component {
                 <div className="form-group">
                   <label htmlFor="id">ID</label>
                   <input className="form-control" type="text" name="id" id="id" readOnly onChange={this.handleChange} value={form?form.id:this.state.data.length + 1}/><br />
+                  <label htmlFor="dni">DNI</label>
+                  <input className="form-control" type="text" name="dni" id="dni" onChange={this.handleChange} value={form ? form.dni : ''}/>
                   <label htmlFor="nombre">Nombre</label>
-                  <input className="form-control" type="text" name="nombre" id="nombre" onChange={this.handleChange} value={form?form.nombre : ''}/>
+                  <input className="form-control" type="text" name="nombre" id="nombre" onChange={this.handleChange} value={form ? form.nombre : ''}/>
+                  <label htmlFor="telefono">Teléfono</label>
+                  <input className="form-control" type="text" name="telefono" id="telefono" onChange={this.handleChange} value={form?form.telefono : ''}/>
                 </div>
               </ModalBody>
               <ModalFooter>
-                {this.state.tipoModal == 'insertar' ? (
+                {this.state.empleadoModal == 'insertar' ? (
                   <button className="btn btn-success" onClick={() => this.peticionPost()} >Insertar</button>
                 ) : (
                   
-                  <button className="btn btn-primary" onClick={() => this.peticionP()}>Actualizar</button>
+                  <button className="btn btn-primary" onClick={() => this.peticionPatch()}>Actualizar</button>
                 )}
                 <button className="btn btn-danger"onClick={() => this.modalInsertar()}>Cancelar</button>
               </ModalFooter>
             </Modal>
     
             <Modal isOpen={this.state.modalEliminar}>
-              <ModalBody>Estás seguro que deseas eliminar a la tipo {form && form.nombre}</ModalBody>
+              <ModalBody>Estás seguro que deseas eliminar a el/la emplead@ {form && form.nombre}</ModalBody>
               <ModalFooter>
               <button className="btn btn-danger" onClick={() => this.peticionDelete()}>Si</button>
                 <button className="btn btn-secundary" onClick={() => this.setState({ modalEliminar: false })}>No</button>
@@ -137,5 +147,4 @@ class Tipos extends Component {
         );
       }
 }
-
-export default Tipos;
+export default Empleado;

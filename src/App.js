@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Tipos from "./Tipos";
+import NavBar from "./components/navBar/NavBar";
 
 class App extends Component {
   render() {
     return (
-
       <div>
-        <div>Barra de navegacion</div>
-        <div><Tipos/></div>
+        <div><NavBar/></div>
       </div>
     )
   }
