@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
+import Tipo from './components/Tipo/Tipos'
 
 function App() {
   return (
-    <div>hola mundo</div>
+    
+    <div>
+      <Tipo/>
+    </div>
   );
 }
 
