@@ -1,6 +1,6 @@
-import { useCRUD } from "@gluedigital/ruse-fetch-extras";
+import { useCRUD, useFetch, useFetchCb } from "@gluedigital/ruse-fetch-extras";
 
-const base = process.env.API_URL||http://localhost:8080
+const base = process.env.API_URL|| 'http://localhost:8080'
 
 export interface TipoInfo{
     id: number;
@@ -31,12 +31,15 @@ export interface EmpleadoInfo{
 
 export const useTipoCRUD=()=>{
     const crud = useCRUD<number, TipoInfo>(base+"/tipos");
-    return{
+        return{
         create:(tipo: TipoInfo):Promise<TipoInfo>=>
-        crud.custom("",{body:tipo, method="POST"}),
+        crud.custom("",{body:tipo, method:"POST"})
+        .then(x),
+        read:(tipo: TipoInfo):Promise<TipoInfo>=>
+        crud.custom("",{body:tipo, method:"GET"}),
         update:(tipo: TipoInfo):Promise<TipoInfo>=>
-        crud.custom("",{body:tipo, method:"PATCH"}),
+        crud.custom("",{body:tipo, method: "PATCH"}),
         delete:(id: number):Promise<boolean>=>
-        crud.custom(""+id, {method="DELETE"}),
+        crud.custom(""+id, {method: "DELETE"}),
     }
 }

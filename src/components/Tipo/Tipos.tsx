@@ -1,20 +1,17 @@
 import React,{useState, useEffect} from "react";
-import Axios from "axios";
-import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faEdit,faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { useTipoCRUD } from "src/hooks/api";
 
 const Tipo=()=>{
     const [tipos, setTipos] = useState([]);
+    const tipoCrud = useTipoCRUD()
   useEffect(() => {
-    Axios({
-      url: "http://localhost:8080/tipos",
-    })
+      tipoCrud.read.then(()=>)
       .then((response) => {
         setTipos(response.data);
       })
       .catch((error) => {
         console.log(error);
-      });
+
     }, [setTipos]);
     
     return (
@@ -31,8 +28,8 @@ const Tipo=()=>{
               ))}
             
             
-              <button className="btn btn-primary"><FontAwesomeIcon icon={faEdit}/></button>
-              <button color="danger"><FontAwesomeIcon icon={faTrashAlt}/></button>
+              <button></button>
+              <button color="danger"></button>
             </div>
           </tr>
         </table>

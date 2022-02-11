@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import Tipo from './components/Tipo/Tipos'
+import Tipos from './components/Tipo/Tipos'
 
 function App() {
   return (
     
     <div>
-      <Tipo/>
+      <Tipos/>
     </div>
   );
 }
