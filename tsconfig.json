@@ -1,25 +1,26 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-      "allowSyntheticDefaultImports": true,
-      "lib": [
-          "dom",
-          "es2015",
-          "es2016",
-          "es2019"
-      ],
-      "jsx": "preserve",
-      "target": "es2016",
-      "module": "es2015",
-      "moduleResolution": "node",
-      "baseUrl": ".",
-      "noImplicitAny": false,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "resolveJsonModule": true,
-      "removeComments": false,
-      "preserveConstEnums": true,
-      "sourceMap": true,
-      "skipLibCheck": true
-  }
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ]
 }
