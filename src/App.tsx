@@ -17,7 +17,7 @@ const App : React.FC = () => {
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link to={"/tipos"} className="nav-link">
-              Tutorials
+              Tipos
             </Link>
           </li>
           <li className="nav-item">

@@ -1,29 +1,30 @@
 import React, { useState, ChangeEvent } from "react";
-import TipoService from "../services/TipoService";
-import ITutorialData from '../types/Tutorial';
-const AddTutorial: React.FC = () => {
-  const initialTutorialState = {
+import TipoDataService from "../../Service/TipoService";
+import ITipoData from '../../types/Tipo';
+
+const AddTipo: React.FC = () => {
+  const initialTipoState = {
     id: null,
-    title: "",
-    description: "",
-    published: false
+    nombre:""
   };
-  const [tutorial, setTutorial] = useState<ITutorialData>(initialTutorialState);
+  const [tipo, setTipo] = useState<ITipoData>(initialTipoState);
   const [submitted, setSubmitted] = useState<boolean>(false);
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setTutorial({ ...tutorial, [name]: value });
+    setTipo({ ...tipo, [name]: value });
   };
-  const saveTutorial = () => {
+
+  const saveTipo = () => {
     var data = {
-      title: tutorial.title,
-      description: tutorial.description
+      nombre: tipo.nombre
     };
-    TipoService.create(data)
+
+    TipoDataService.create(data)
       .then((response: any) => {
-        setTutorial({
+        setTipo({
           id: response.data.id,
-          
+          nombre: response.data.nombre,¡
         });
         setSubmitted(true);
         console.log(response.data);
@@ -32,10 +33,43 @@ const AddTutorial: React.FC = () => {
         console.log(e);
       });
   };
-  const newTutorial = () => {
-    setTutorial(initialTutorialState);
+
+  const newTipo = () => {
+    setTipo(initialTipoState);
     setSubmitted(false);
   };
-  return ( ... );
+
+  return (
+    <div className="submit-form">
+      {submitted ? (
+        <div>
+          <h4>Se ha añadido correctamente el Tipo</h4>
+          <button className="btn btn-success" onClick={newTipo}>
+            Add
+          </button>
+        </div>
+      ) : (
+        <div>
+          <div className="form-group">
+            <label htmlFor="nombre">Nombre</label>
+            <input
+              type="text"
+              className="form-control"
+              id="nombre"
+              required
+              value={tipo.nombre}
+              onChange={handleInputChange}
+              name="nombre"
+            />
+          </div>
+
+          <button onClick={saveTipo} className="btn btn-success">
+            Añadir
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
-export default AddTutorial;
+
+export default AddTipo;

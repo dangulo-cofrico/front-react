@@ -6,7 +6,7 @@ import '../../index.css';
 import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { TipoService } from '../Service/TipoService';
+import TipoService from '../../Service/TipoService';
 
 const url="http://localhost:8080/tipos";
 
