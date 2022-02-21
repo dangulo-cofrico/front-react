@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
-import TipoDataService from "../../Service/TipoService";
+import { Link } from "react-router-dom";
+import TipoDataService from "../../services/TipoService";
 import ITipoData from '../../types/Tipo';
 const TiposList: React.FC = () => {
   const [tipos, setTipos] = useState<Array<ITipoData>>([]);
@@ -56,75 +57,75 @@ const TiposList: React.FC = () => {
   };
   return ( 
     <div className="list row">
-    <div className="col-md-8">
+      <div className="col-md-8">
         <div className="input-group mb-3">
-        <input
+          <input
             type="text"
             className="form-control"
             placeholder="Buscar por nombre"
             value={searchNombre}
             onChange={onChangeSearchNombre}
-        />
-        <div className="input-group-append">
+          />
+          <div className="input-group-append">
             <button
-            className="btn btn-outline-secondary"
-            type="button"
-            onClick={findByNombre}
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={findByNombre}
             >
-            Search
+              Buscar
             </button>
+          </div>
         </div>
-        </div>
-    </div>
-    <div className="col-md-6">
-        <h4>Tipos List</h4>
+      </div>
+      <div className="col-md-6">
+        <h4>Lista de Tipos</h4>
         <ul className="list-group">
-        {tipos &&
+          {tipos &&
             tipos.map((tipo, index) => (
-            <li
+              <li
                 className={
-                "list-group-item " + (index === currentIndex ? "active" : "")
+                  "list-group-item " + (index === currentIndex ? "active" : "")
                 }
                 onClick={() => setActiveTipo(tipo, index)}
                 key={index}
-            >
+              >
                 {tipo.nombre}
-            </li>
+              </li>
             ))}
         </ul>
         <button
-        className="m-3 btn btn-sm btn-danger"
-        onClick={removeAllTipos}
+          className="m-3 btn btn-sm btn-danger"
+          onClick={removeAllTipos}
         >
-        Remove All
+          Borrar Todo
         </button>
-    </div>
-    <div className="col-md-6">
+      </div>
+      <div className="col-md-6">
         {currentTipo ? (
-        <div>
+          <div>
             <h4>Tipo</h4>
             <div>
-            <label>
+              <label>
                 <strong>Nombre:</strong>
-            </label>{" "}
-            {currentTipo.nombre}
+              </label>{" "}
+              {currentTipo.nombre}
             </div>
-            
             <Link
-            to={"/tipos/" + currentTipo.id}
-            className="badge badge-warning"
+              to={"/tipos/" + currentTipo.id}
+              style={{color: '#0F0'}}
+              className="badge badge-warning"
             >
-            Edit
+              Editar
             </Link>
-        </div>
+          </div>
         ) : (
-        <div>
+          <div>
             <br />
-            <p>Please click on a Tipo...</p>
-        </div>
-    )}
+            <p>Por favor pulse un Tipo...</p>
+          </div>
+        )}
+      </div>
     </div>
-</div>
-); )
+  );
 };
 export default TiposList;

@@ -1,19 +1,18 @@
 import React from "react";
-import { Route, Link, Routes } from "react-router-dom";
+import { Route, Link, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './App.css';
 import AddTipo from "./components/Tipo/AddTipo";
 import Tipo from "./components/Tipo/Tipo";
 import TipoList from "./components/Tipo/TipoList";
-
-
+import './App.css';
 const App : React.FC = () => {
   return (
-    <div>
+    <div className="App">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <a href="/tipos" className="navbar-brand">
-          bezKoder
+          Home
         </a>
+        
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link to={"/tipos"} className="nav-link">
@@ -28,11 +27,11 @@ const App : React.FC = () => {
         </div>
       </nav>
       <div className="container mt-3">
-        <Routes>
-          <Route path="/tipos" element={TipoList}/>
-          <Route path="tipos/add" element={AddTipo}/>
-          <Route path="/tipos/:id" element={Tipo}/>
-        </Routes>
+        <Switch>
+          <Route exact path={["/", "/tipos"]} component={TipoList}/>
+          <Route exact path="tipos/add" component={AddTipo}/>
+          <Route path="/tipos/:id" component={Tipo}/>
+        </Switch>
       </div>
     </div>
   );
