@@ -1,14 +1,18 @@
 import React, { useState, ChangeEvent } from "react";
+import { useHistory } from "react-router-dom";
 import TipoDataService from "../../services/TipoService";
 import ITipoData from '../../types/Tipo';
 
 const AddTipo: React.FC = () => {
+  
   const initialTipoState = {
     id: null,
     nombre:""
   };
+
+  const history = useHistory();
+
   const [tipo, setTipo] = useState<ITipoData>(initialTipoState);
-  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -19,14 +23,13 @@ const AddTipo: React.FC = () => {
     var data = {
       nombre: tipo.nombre
     };
-
     TipoDataService.create(data)
       .then((response: any) => {
         setTipo({
           id: response.data.id,
           nombre: response.data.nombre
         });
-        setSubmitted(true);
+        history.push("/tipos");
         console.log(response.data);
       })
       .catch((e: Error) => {
@@ -34,41 +37,14 @@ const AddTipo: React.FC = () => {
       });
   };
 
-  const newTipo = () => {
-    setTipo(initialTipoState);
-    setSubmitted(false);
-  };
     return (
-      <div className="submit-form">
-        {submitted ? (
-          <div>
-            <h4>You submitted successfully!</h4>
-            <button className="btn btn-success" onClick={newTipo}>
-              Añadir
-            </button>
+        <div>
+          <div className="form-group">
+            <label htmlFor="nombre">Nombre</label>
+            <input type="text" className="form-control" id="nombre" required value={tipo.nombre} onChange={handleInputChange} name="nombre"/>
           </div>
-        ) : (
-          <div>
-            <div className="form-group">
-              <label htmlFor="nombre">Nombre</label>
-              <input
-                type="text"
-                className="form-control"
-                id="nombre"
-                required
-                value={tipo.nombre}
-                onChange={handleInputChange}
-                name="nombre"
-              />
-            </div>
-            
-            <button onClick={saveTipo} className="btn btn-success">
-              Submit
-            </button>
-          </div>
-        )}
+          <button onClick={saveTipo} className="btn btn-success">Añadir</button>
         </div>
-
     )
   };
   export default AddTipo;

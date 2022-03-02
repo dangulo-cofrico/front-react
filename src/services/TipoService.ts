@@ -14,7 +14,7 @@ const create = (data: ITipoData) => {
 };
 
 const update = (data: ITipoData) => {
-  return http.patch<any>(`/tipos`, data);
+  return http.patch<ITipoData>(`/tipos`, data);
 };
 
 const remove = (id: any) => {
@@ -26,17 +26,11 @@ const removeAll = () => {
 };
 
 const findByNombre = (nombre: string) => {
-  return http.get<Array<ITipoData>>(`/tipos/nombre?nombre=${nombre}`);
+  return http.get<Array<ITipoData>>(`/tipos/nombre/${nombre}`);
 };
 
 const TipoService = {
-  getAll,
-  get,
-  create,
-  update,
-  remove,
-  removeAll,
-  findByNombre
+  getAll, get, create, update, remove, removeAll, findByNombre
 };
 
 export default TipoService;

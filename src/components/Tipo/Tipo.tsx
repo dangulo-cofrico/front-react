@@ -16,7 +16,7 @@ const Tipo: React.FC<Props>=(props: Props) => {
   };
 
   const [currentTipo, setCurrentTipo] = useState<ITipoData>(initialTipoState);
-  const [message, setMessage] = useState<string>("");
+
   const getTipo = (id: string) => {
     TipoDataService.get(id)
       .then((response: any) => {
@@ -38,7 +38,7 @@ const Tipo: React.FC<Props>=(props: Props) => {
     TipoDataService.update(currentTipo)
       .then((response: any) => {
         console.log(response.data);
-        setMessage("El Tipo se modificó adecuadamente!");
+        props.history.push("/tipos");
       })
       .catch((e: Error) => {
         console.log(e);
@@ -62,26 +62,14 @@ const Tipo: React.FC<Props>=(props: Props) => {
           <form>
             <div className="form-group">
               <label htmlFor="nombre">Nombre</label>
-              <input
-                type="text"
-                className="form-control"
-                id="nombre"
-                name="nombre"
-                value={currentTipo.nombre}
-                onChange={handleInputChange}
+              <input type="text" className="form-control" id="nombre" name="nombre" value={currentTipo.nombre} onChange={handleInputChange}
               />
             </div>
           </form>
-          <button className="badge badge-danger mr-2" onClick={deleteTipo}>
-            Borrar
-          </button>
-          <button
-            className="badge badge-success"
-            onClick={updateTipo}
-          >
+          <button style={{color:"black", background:"red"}} onClick={deleteTipo}>Borrar</button>
+          <button style={{color:"black", background:"yellow"}} onClick={updateTipo}>
             Editar
           </button>
-          <p>{message}</p>
         </div>
       ) : (
         <div>
