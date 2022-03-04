@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
-import DepartamentoDataService from "../../services/DepartamentoService";
-import IDepartamentoData from '../../types/Departamento';
+import { useDepartamentoCRUD } from "../../hooks/api";
+import {IDepartamentoOutputData} from '../../hooks/api';
 
 const DepartamentoList: React.FC = () => {
 
-  const [departamentos, setDepartamentos] = useState<Array<IDepartamentoData>>([]);
-  const [currentDepartamento, setCurrentDepartamento] = useState<IDepartamentoData | null>(null);
+  const [departamentos, setDepartamentos] = useState<Array<IDepartamentoOutputData>>([]);
+  const [currentDepartamento, setCurrentDepartamento] = useState<IDepartamentoOutputData | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [searchNombre, setSearchNombre] = useState<string>("");
   const history=useHistory();
@@ -21,7 +21,7 @@ const DepartamentoList: React.FC = () => {
   };
 
   const retrieveDepartamentos = () => {
-    DepartamentoDataService.getAll()
+    useDepartamentoCRUD.getAllDepartamento()
       .then((response: any) => {
         setDepartamentos(response.data);
         console.log(response.data);
@@ -37,13 +37,13 @@ const DepartamentoList: React.FC = () => {
     setCurrentIndex(-1);
   };
 
-  const setActiveDepartamento = (departamento: IDepartamentoData, index: number) => {
+  const setActiveDepartamento = (departamento: IDepartamentoOutputData, index: number) => {
     setCurrentDepartamento(departamento);
     setCurrentIndex(index);
   };
 
   const removeAllDepartamentos = () => {
-    DepartamentoDataService.removeAll()
+    useDepartamentoCRUD.removeAllDepartamento()
       .then((response: any) => {
         console.log(response.data);
         refreshList();
@@ -58,7 +58,7 @@ const DepartamentoList: React.FC = () => {
   };
 
   const findByNombre = () => {
-    DepartamentoDataService.findByNombre(searchNombre)
+    useDepartamentoCRUD.findByNombreDepartamento(searchNombre)
       .then((response: any) => {
         setDepartamentos(response.data);
         setCurrentDepartamento(null);

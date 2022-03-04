@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { RouteComponentProps } from 'react-router-dom';
-import EmpresaDataService from "../../services/EmpresaService";
-import IEmpresaData from "../../types/Empresa";
+import { useEmpresaCRUD } from "../../hooks/api";
+import { IEmpresaOutputData } from "../../hooks/api";
 
 interface RouterProps { // type for `match.params`
   id: string; // must be type `string` since value comes from the URL
@@ -15,12 +15,15 @@ const Empresa: React.FC<Props>=(props: Props) => {
     nombre:"",
     direccion:"",
     codTipo: null,
-    codsDepartamentos:[]
+    tipo: {
+      id:null,
+      nombre:''
+    }
   };
 
-  const [currentEmpresa, setCurrentEmpresa] = useState<IEmpresaData>(initialEmpresaState);
+  const [currentEmpresa, setCurrentEmpresa] = useState<IEmpresaOutputData>(initialEmpresaState);
   const getEmpresa = (id: string) => {
-    EmpresaDataService.get(id)
+    useEmpresaCRUD.getEmpresa(id)
       .then((response: any) => {
         setCurrentEmpresa(response.data);
         console.log(response.data);
@@ -37,7 +40,7 @@ const Empresa: React.FC<Props>=(props: Props) => {
     setCurrentEmpresa({ ...currentEmpresa, [name]: value });
   };
   const updateEmpresa = () => {
-    EmpresaDataService.update(currentEmpresa)
+    useEmpresaCRUD.updateEmpresa(currentEmpresa)
       .then((response: any) => {
         console.log(response.data);
         props.history.push("/empresas");
@@ -47,7 +50,7 @@ const Empresa: React.FC<Props>=(props: Props) => {
       });
   };
   const deleteEmpresa = () => {
-    EmpresaDataService.remove(currentEmpresa.id).then((response: any) => {
+    useEmpresaCRUD.removeEmpresa(currentEmpresa.id).then((response: any) => {
         console.log(response.data);
         props.history.push("/empresas");
       })
@@ -56,26 +59,20 @@ const Empresa: React.FC<Props>=(props: Props) => {
       });
   };
   return (
-    <div>
-      {currentEmpresa ? (
-        <div className="edit-form">
-          <h4>Empresa</h4>
-          <form>
-            <div className="form-group">
-              <label htmlFor="nombre">Nombre</label>
-              <input type="text" className="form-control" id="nombre" name="nombre" value={currentEmpresa.nombre} onChange={handleInputChange}/>
-              <label htmlFor="direccion">Direccion</label>
-              <input type="text" className="form-control" id="direccion" name="direccion" value={currentEmpresa.direccion} onChange={handleInputChange}/>
-              <label htmlFor="tipo">Nombre de tipo</label><br/>
-              <input type="text" className="form-control" id="tipo" name="tipo" value={currentEmpresa.codTipo} onChange={handleInputChange}/>
-            </div> 
-          </form>
-          <button style={{color:"white", background:"red"}} onClick={deleteEmpresa}>Borrar</button>
-          <button style={{color:"white", background:"yellow"}} onClick={updateEmpresa}>Editar</button>
-        </div>
-      ) : (
-        <div><p>Por favor pulse un Empresa...</p></div>
-      )}
+    <div className="edit-form">
+      <h4>Empresa</h4>
+      <form>
+        <div className="form-group">
+          <label htmlFor="nombre">Nombre</label>
+          <input type="text" className="form-control" id="nombre" name="nombre" value={currentEmpresa.nombre} onChange={handleInputChange}/>
+          <label htmlFor="direccion">Direccion</label>
+          <input type="text" className="form-control" id="direccion" name="direccion" value={currentEmpresa.direccion} onChange={handleInputChange}/>
+          <label htmlFor="tipo">Nombre de tipo</label><br/>
+          <input type="text" className="form-control" id="tipo" name="tipo" value={currentEmpresa.tipo.nombre} onChange={handleInputChange}/>
+        </div> 
+      </form>
+      <button style={{color:"white", background:"red"}} onClick={deleteEmpresa}>Borrar</button>
+      <button style={{color:"white", background:"yellow"}} onClick={updateEmpresa}>Editar</button>
     </div>
   );
 };

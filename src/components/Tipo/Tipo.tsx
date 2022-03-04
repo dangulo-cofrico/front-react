@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { RouteComponentProps } from 'react-router-dom';
-import TipoDataService from "../../services/TipoService";
-import ITipoData from "../../types/Tipo";
+import { useTipoCRUD } from "../../hooks/api";
+import { ITipoOutputData } from "../../hooks/api";
 
 interface RouterProps { // type for `match.params`
   id: string; // must be type `string` since value comes from the URL
@@ -15,10 +15,10 @@ const Tipo: React.FC<Props>=(props: Props) => {
     nombre: ""
   };
 
-  const [currentTipo, setCurrentTipo] = useState<ITipoData>(initialTipoState);
+  const [currentTipo, setCurrentTipo] = useState<ITipoOutputData>(initialTipoState);
 
   const getTipo = (id: string) => {
-    TipoDataService.get(id)
+    useTipoCRUD.getTipo(id)
       .then((response: any) => {
         setCurrentTipo(response.data);
         console.log(response.data);
@@ -35,7 +35,7 @@ const Tipo: React.FC<Props>=(props: Props) => {
     setCurrentTipo({ ...currentTipo, [name]: value });
   };
   const updateTipo = () => {
-    TipoDataService.update(currentTipo)
+    useTipoCRUD.updateTipo(currentTipo)
       .then((response: any) => {
         console.log(response.data);
         props.history.push("/tipos");
@@ -45,7 +45,7 @@ const Tipo: React.FC<Props>=(props: Props) => {
       });
   };
   const deleteTipo = () => {
-    TipoDataService.remove(currentTipo.id)
+    useTipoCRUD.removeTipo(currentTipo.id)
       .then((response: any) => {
         console.log(response.data);
         props.history.push("/tipos");
@@ -55,28 +55,19 @@ const Tipo: React.FC<Props>=(props: Props) => {
       });
   };
   return (
-    <div>
-      {currentTipo ? (
-        <div className="edit-form">
-          <h4>Tipo</h4>
-          <form>
-            <div className="form-group">
-              <label htmlFor="nombre">Nombre</label>
-              <input type="text" className="form-control" id="nombre" name="nombre" value={currentTipo.nombre} onChange={handleInputChange}
-              />
-            </div>
-          </form>
-          <button style={{color:"black", background:"red"}} onClick={deleteTipo}>Borrar</button>
-          <button style={{color:"black", background:"yellow"}} onClick={updateTipo}>
-            Editar
-          </button>
+    <div className="edit-form">
+      <h4>Tipo</h4>
+      <form>
+        <div className="form-group">
+          <label htmlFor="nombre">Nombre</label>
+          <input type="text" className="form-control" id="nombre" name="nombre" value={currentTipo.nombre} onChange={handleInputChange}
+          />
         </div>
-      ) : (
-        <div>
-          <br />
-          <p>Por favor pulse un Tipo...</p>
-        </div>
-      )}
+      </form>
+      <button style={{color:"black", background:"red"}} onClick={deleteTipo}>Borrar</button>
+      <button style={{color:"black", background:"yellow"}} onClick={updateTipo}>
+        Editar
+      </button>
     </div>
   );
 };

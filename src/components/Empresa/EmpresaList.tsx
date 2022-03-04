@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
-import EmpresaDataService from "../../services/EmpresaService";
-import IEmpresaData from '../../types/Empresa';
+import { useEmpresaCRUD } from "../../hooks/api";
+import { IEmpresaOutputData } from '../../hooks/api';
 
 const EmpresaList: React.FC = () => {
   
-  const [empresas, setEmpresas] = useState<Array<IEmpresaData>>([]);
-  const [currentEmpresa, setCurrentEmpresa] = useState<IEmpresaData | null>(null);
+  const [empresas, setEmpresas] = useState<Array<IEmpresaOutputData>>([]);
+  const [currentEmpresa, setCurrentEmpresa] = useState<IEmpresaOutputData | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [searchNombre, setSearchNombre] = useState<string>("");
   const history=useHistory();
@@ -16,7 +16,7 @@ const EmpresaList: React.FC = () => {
   }, []);
   
   const retrieveEmpresas = () => {
-    EmpresaDataService.getAll()
+    useEmpresaCRUD.getAllEmpresa()
       .then((response: any) => {
         setEmpresas(response.data);
         console.log(response.data);
@@ -37,13 +37,13 @@ const EmpresaList: React.FC = () => {
     setCurrentIndex(-1);
   };
 
-  const setActiveEmpresa = (empresa: IEmpresaData, index: number) => {
+  const setActiveEmpresa = (empresa: IEmpresaOutputData, index: number) => {
     setCurrentEmpresa(empresa);
     setCurrentIndex(index);
   };
 
   const removeAllEmpresas = () => {
-    EmpresaDataService.removeAll()
+    useEmpresaCRUD.removeAllEmpresa()
       .then((response: any) => {
         console.log(response.data);
         refreshList();
@@ -58,7 +58,7 @@ const EmpresaList: React.FC = () => {
   };
   
   const findByNombre = () => {
-    EmpresaDataService.findByNombre(searchNombre)
+    useEmpresaCRUD.findByNombreEmpresa(searchNombre)
       .then((response: any) => {
         setEmpresas(response.data);
         setCurrentEmpresa(null);
@@ -102,7 +102,7 @@ const EmpresaList: React.FC = () => {
               <label><strong>Direccion:</strong></label>{" "}
               {currentEmpresa.direccion}<br/>
               <label><strong>Nombre de Tipo: </strong></label>{" "}
-              {currentEmpresa.codTipo}
+              {currentEmpresa.tipo.nombre}
             </div>
             <Link to={"/empresas/" + currentEmpresa.id} className="badge badge-warning">Editar</Link>
           </div>

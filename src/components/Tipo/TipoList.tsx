@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
-import TipoDataService from "../../services/TipoService";
-import ITipoData from '../../types/Tipo';
+import { useTipoCRUD } from "../../hooks/api"
+import { ITipoOutputData } from '../../hooks/api';
 
 const TipoList: React.FC = () => {
   
-  const [tipos, setTipos] = useState<Array<ITipoData>>([]);
-  const [currentTipo, setCurrentTipo] = useState<ITipoData | null>(null);
+  const [tipos, setTipos] = useState<Array<ITipoOutputData>>([]);
+  const [currentTipo, setCurrentTipo] = useState<ITipoOutputData | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [searchNombre, setSearchNombre] = useState<string>("");
   const history=useHistory();
@@ -21,7 +21,7 @@ const TipoList: React.FC = () => {
   };
 
   const retrieveTipos = () => {
-    TipoDataService.getAll()
+    useTipoCRUD.getAllTipo()
       .then((response: any) => {
         setTipos(response.data);
         console.log(response.data);
@@ -37,13 +37,13 @@ const TipoList: React.FC = () => {
     setCurrentIndex(-1);
   };
 
-  const setActiveTipo = (tipo: ITipoData, index: number) => {
+  const setActiveTipo = (tipo: ITipoOutputData, index: number) => {
     setCurrentTipo(tipo);
     setCurrentIndex(index);
   };
 
   const removeAllTipos = () => {
-    TipoDataService.removeAll()
+    useTipoCRUD.removeAllTipo()
       .then((response: any) => {
         console.log(response.data);
         refreshList();
@@ -58,7 +58,7 @@ const TipoList: React.FC = () => {
   };
 
   const findByNombre = () => {
-    TipoDataService.findByNombre(searchNombre)
+    useTipoCRUD.findByNombreTipo(searchNombre)
       .then((response: any) => {
         setTipos(response.data);
         setCurrentTipo(null);

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
-import EmpleadoDataService from "../../services/EmpleadoService";
-import IEmpleadoData from '../../types/Empleado';
+import { useEmpleadoCRUD } from "../../hooks/api";
+import { IEmpleadoOutputData } from '../../hooks/api';
 
 const EmpleadoList: React.FC = () => {
   
-  const [empleados, setEmpleados] = useState<Array<IEmpleadoData>>([]);
-  const [currentEmpleado, setCurrentEmpleado] = useState<IEmpleadoData | null>(null);
+  const [empleados, setEmpleados] = useState<Array<IEmpleadoOutputData>>([]);
+  const [currentEmpleado, setCurrentEmpleado] = useState<IEmpleadoOutputData | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [searchNombre, setSearchNombre] = useState<string>("");
   const history=useHistory();
@@ -16,7 +16,7 @@ const EmpleadoList: React.FC = () => {
   }, []);
   
   const retrieveEmpleados = () => {
-    EmpleadoDataService.getAll()
+    useEmpleadoCRUD.getAllEmpleado()
       .then((response: any) => {
         setEmpleados(response.data);
         console.log(response.data);
@@ -37,13 +37,13 @@ const EmpleadoList: React.FC = () => {
     setCurrentIndex(-1);
   };
 
-  const setActiveEmpleado = (empleado: IEmpleadoData, index: number) => {
+  const setActiveEmpleado = (empleado: IEmpleadoOutputData, index: number) => {
     setCurrentEmpleado(empleado);
     setCurrentIndex(index);
   };
 
   const removeAllEmpleados = () => {
-    EmpleadoDataService.removeAll()
+    useEmpleadoCRUD.removeAllEmpleado()
       .then((response: any) => {
         console.log(response.data);
         refreshList();
@@ -58,7 +58,7 @@ const EmpleadoList: React.FC = () => {
   };
   
   const findByNombre = () => {
-    EmpleadoDataService.findByNombre(searchNombre)
+    useEmpleadoCRUD.findByNombreEmpleado(searchNombre)
       .then((response: any) => {
         setEmpleados(response.data);
         setCurrentEmpleado(null);
@@ -108,7 +108,7 @@ const EmpleadoList: React.FC = () => {
           </div>
         ) : (
           <div>
-            <p>Por favor pulse una Empleado...</p>
+            <p>Por favor pulse un Empleado...</p>
           </div>
         )}
       </div>

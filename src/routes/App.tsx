@@ -1,20 +1,20 @@
 import React from "react";
 import { Route, Link, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./components/Home/Home";
+import Home from "../components/Home/Home";
 import './App.css';
-import AddEmpresa from "./components/Empresa/AddEmpresa";
-import EmpresaList from "./components/Empresa/EmpresaList";
-import Empresa from "./components/Empresa/Empresa";
-import AddTipo from "./components/Tipo/AddTipo";
-import Tipo from "./components/Tipo/Tipo";
-import TipoList from "./components/Tipo/TipoList";
-import DepartamentoList from "./components/Departamento/DepartamentoList";
-import AddDepartamento from "./components/Departamento/AddDepartamento";
-import Departamento from "./components/Departamento/Departamento";
-import Empleado from "./components/Empleado/Empleado";
-import AddEmpleado from "./components/Empleado/AddEmpleado";
-import EmpleadoList from "./components/Empleado/EmpleadoList";
+import AddEmpresa from "../components/Empresa/AddEmpresa";
+import EmpresaList from "../components/Empresa/EmpresaList";
+import Empresa from "../components/Empresa/Empresa";
+import AddTipo from "../components/Tipo/AddTipo";
+import Tipo from "../components/Tipo/Tipo";
+import TipoList from "../components/Tipo/TipoList";
+import DepartamentoList from "../components/Departamento/DepartamentoList";
+import AddDepartamento from "../components/Departamento/AddDepartamento";
+import Departamento from "../components/Departamento/Departamento";
+import Empleado from "../components/Empleado/Empleado";
+import AddEmpleado from "../components/Empleado/AddEmpleado";
+import EmpleadoList from "../components/Empleado/EmpleadoList";
 const App : React.FC = () => {
   return (
     <div className="App">

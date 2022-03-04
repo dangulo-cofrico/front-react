@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { RouteComponentProps } from 'react-router-dom';
-import EmpleadoDataService from "../../services/EmpleadoService";
-import IEmpleadoData from "../../types/Empleado";
+import { useEmpleadoCRUD } from "../../hooks/api";
+import { IEmpleadoOutputData } from "../../hooks/api";
 
 interface RouterProps { // type for `match.params`
   id: string; // must be type `string` since value comes from the URL
@@ -11,19 +11,22 @@ type Props = RouteComponentProps<RouterProps>;
 
 const Empleado: React.FC<Props>=(props: Props) => {
   const initialEmpleadoState = {
-    id: null,
-    dni:"",
-    nombre:"",
-    telefono:"",
+    id : null,
+    dni : "",
+    nombre : "",
+    telefono : "",
     empleadodep:[{
-        codDepartamento: 0,
-        cargo:""
+      id : null,
+      cargo : "",
+      departamento: {
+        id:null,
+        nombre:''
+      }
     }]
   };
-
-  const [currentEmpleado, setCurrentEmpleado] = useState<IEmpleadoData>(initialEmpleadoState);
+  const [currentEmpleado, setCurrentEmpleado] = useState<IEmpleadoOutputData>(initialEmpleadoState);
   const getEmpleado = (id: string) => {
-    EmpleadoDataService.get(id)
+    useEmpleadoCRUD.getEmpleado(id)
       .then((response: any) => {
         setCurrentEmpleado(response.data);
         console.log(response.data);
@@ -40,7 +43,7 @@ const Empleado: React.FC<Props>=(props: Props) => {
     setCurrentEmpleado({ ...currentEmpleado, [name]: value });
   };
   const updateEmpleado = () => {
-    EmpleadoDataService.update(currentEmpleado)
+    useEmpleadoCRUD.updateEmpleado(currentEmpleado)
       .then((response: any) => {
         console.log(response.data);
         props.history.push("/empleados");
@@ -50,7 +53,7 @@ const Empleado: React.FC<Props>=(props: Props) => {
       });
   };
   const deleteEmpleado = () => {
-    EmpleadoDataService.remove(currentEmpleado.id)
+    useEmpleadoCRUD.removeEmpleado(currentEmpleado.id)
       .then((response: any) => {
         console.log(response.data);
         props.history.push("/empleados");
@@ -60,32 +63,20 @@ const Empleado: React.FC<Props>=(props: Props) => {
       });
   };
   return (
-    <div>
-      {currentEmpleado ? (
-        <div className="edit-form">
-          <h4>Empleado</h4>
-          <form>
-            <div className="form-group">
-              <label htmlFor="dni">DNI</label>
-              <input type="text" className="form-control" id="dni" name="dni" value={currentEmpleado.dni} onChange={handleInputChange}/>
-              <label htmlFor="nombre">Nombre</label>
-              <input type="text" className="form-control" id="nombre" name="nombre" value={currentEmpleado.nombre} onChange={handleInputChange}/>
-              <label htmlFor="telefono">Teléfono</label><br/>
-              <input type="text" className="form-control" id="telefono" name="telefono" value={currentEmpleado.telefono} onChange={handleInputChange}/>
-            </div>
-          </form>
-          <button style={{color:"black", background:"red"}} onClick={deleteEmpleado}>Borrar</button>
-          <button style={{color:"black", background:"yellow"}} onClick={updateEmpleado}
-          >
-            Editar
-          </button>
+    <div className="edit-form">
+      <h4>Empleado</h4>
+      <form>
+        <div className="form-group">
+          <label htmlFor="dni">DNI</label>
+          <input type="text" className="form-control" id="dni" name="dni" value={currentEmpleado.dni} onChange={handleInputChange}/>
+          <label htmlFor="nombre">Nombre</label>
+          <input type="text" className="form-control" id="nombre" name="nombre" value={currentEmpleado.nombre} onChange={handleInputChange}/>
+          <label htmlFor="telefono">Teléfono</label><br/>
+          <input type="text" className="form-control" id="telefono" name="telefono" value={currentEmpleado.telefono} onChange={handleInputChange}/>
         </div>
-      ) : (
-        <div>
-          <br />
-          <p>Por favor pulse un/una Emplead@...</p>
-        </div>
-      )}
+      </form>
+      <button style={{color:"black", background:"red"}} onClick={deleteEmpleado}>Borrar</button>
+      <button style={{color:"black", background:"yellow"}} onClick={updateEmpleado}>Editar</button>
     </div>
   );
 };

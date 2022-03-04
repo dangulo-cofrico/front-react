@@ -1,33 +1,33 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import EmpresaDataService from "../../services/EmpresaService";
-import DepartamentoDataService from "../../services/DepartamentoService"
-import TipoDataService from "../../services/TipoService";
-import IEmpresaData from '../../types/Empresa';
-import ITipoData from "../../types/Tipo";
+import { IEmpresaInputData, ITipoOutputData,  useTipoCRUD,useDepartamentoCRUD, useEmpresaCRUD, IDepartamentoOutputData } from "../../hooks/api";
 import {Dropdown} from 'primereact/dropdown'
 import { MultiSelect } from 'primereact/multiselect'
 import "./AddEmpresa.css"
 
 const AddEmpresa: React.FC = () => {
   const initialEmpresaState = {
-    id: null,
-    nombre:"",
-    direccion:"",
-    codTipo:null,
-    codsDepartamentos:[{
-      id: 0
+    id : null,
+    nombre : "",
+    direccion : "",
+    tipo : {
+      id:null,
+      nombre:''
+    },
+    departamentos : [{
+      id : null,
+      nombre : ''
     }]
   };
 
 
   const history = useHistory();
 
-  const [empresa, setEmpresa] = useState<IEmpresaData>(initialEmpresaState);
-  const [tipos, setTipos]= useState<Array<ITipoData>>([]);
-  const [selectedTipo, setSelectedTipo] = useState<ITipoData>();
-  const [departamentos, setDepartamentos]=useState(initialEmpresaState.codsDepartamentos);
-  const [selectedDepartamentos, setSelectedDepartamentos]=useState(initialEmpresaState.codsDepartamentos);
+  const [empresa, setEmpresa] = useState<IEmpresaInputData>(initialEmpresaState);
+  const [tipos, setTipos]= useState<Array<ITipoOutputData>>([]);
+  const [selectedTipo, setSelectedTipo] = useState<ITipoOutputData>();
+  const [departamentos, setDepartamentos]=useState(initialEmpresaState.departamentos);
+  const [selectedDepartamentos, setSelectedDepartamentos]=useState<IDepartamentoOutputData>();
   
   useEffect(() => {
     retrieveTipos();
@@ -35,7 +35,7 @@ const AddEmpresa: React.FC = () => {
   }, []);
   
   const retrieveTipos = () => {
-    TipoDataService.getAll()
+    useTipoCRUD.getAllTipo()
     .then((response: any) => {
       setTipos(response.data);
       console.log(response.data);
@@ -45,7 +45,7 @@ const AddEmpresa: React.FC = () => {
     });
     }
   const retrieveDepartamentos=()=>{
-    DepartamentoDataService.getAll()
+    useDepartamentoCRUD.getAllDepartamento()
     .then((response: any)=>{
       setDepartamentos(response.data);
       console.log(response.data);
@@ -64,18 +64,18 @@ const AddEmpresa: React.FC = () => {
     var data = {
       nombre: empresa.nombre,
       direccion: empresa.direccion, 
-      tipo: {selectedTipo}.selectedTipo?.id,
-      codsDepartamentos : {selectedDepartamentos}
+      tipo: empresa.tipo.id,
+      departamentos : {selectedDepartamentos}
     };
-    EmpresaDataService.create(data)
+    useEmpresaCRUD.createEmpresa(data)
       .then((response: any) => {
         console.log(data)
         setEmpresa({
           id: response.data.id,
           nombre: response.data.nombre,
           direccion: response.data.direccion,
-          codTipo: response.data.codTipo,
-          codsDepartamentos:response.data.codsDepartamentos
+          tipo: response.data.tipo,
+          departamentos:response.data.departamentos
         });
         history.push("/empresas");
         console.log(response.data);

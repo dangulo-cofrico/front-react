@@ -1,10 +1,9 @@
 import React, { useState, ChangeEvent } from "react";
 import { useHistory } from "react-router-dom";
-import TipoDataService from "../../services/TipoService";
-import ITipoData from '../../types/Tipo';
+import { useTipoCRUD } from "../../hooks/api";
+import { ITipoOutputData } from "../../hooks/api";
 
 const AddTipo: React.FC = () => {
-  
   const initialTipoState = {
     id: null,
     nombre:""
@@ -12,7 +11,7 @@ const AddTipo: React.FC = () => {
 
   const history = useHistory();
 
-  const [tipo, setTipo] = useState<ITipoData>(initialTipoState);
+  const [tipo, setTipo] = useState<ITipoOutputData>(initialTipoState);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -23,7 +22,7 @@ const AddTipo: React.FC = () => {
     var data = {
       nombre: tipo.nombre
     };
-    TipoDataService.create(data)
+    useTipoCRUD.createTipo(data)
       .then((response: any) => {
         setTipo({
           id: response.data.id,

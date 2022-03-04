@@ -1,10 +1,9 @@
 import React, { useState, ChangeEvent } from "react";
 import { useHistory } from "react-router-dom";
-import DepartamentoDataService from "../../services/DepartamentoService";
-import IDepartamentoData from '../../types/Departamento';
+import { useDepartamentoCRUD } from "../../hooks/api";
+import {IDepartamentoOutputData} from '../../hooks/api';
 
 const AddDepartamento: React.FC = () => {
-  
   const initialDepartamentoState = {
     id: null,
     nombre:""
@@ -12,7 +11,7 @@ const AddDepartamento: React.FC = () => {
 
   const history = useHistory();
 
-  const [departamento, setDepartamento] = useState<IDepartamentoData>(initialDepartamentoState);
+  const [departamento, setDepartamento] = useState<IDepartamentoOutputData>(initialDepartamentoState);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -20,10 +19,10 @@ const AddDepartamento: React.FC = () => {
   };
 
   const saveDepartamento = () => {
-    var data = {
-      nombre: departamento.nombre
-    };
-    DepartamentoDataService.create(data)
+    var data={
+      nombre:departamento.nombre
+    }
+    useDepartamentoCRUD.createDepartamento(data)
       .then((response: any) => {
         setDepartamento({
           id: response.data.id,
