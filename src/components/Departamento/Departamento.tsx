@@ -63,7 +63,7 @@ const Departamento: React.FC<Props>=(props: Props) => {
           <input type="text" className="form-control" id="nombre" name="nombre" value={currentDepartamento.nombre} onChange={handleInputChange}/>
         </div>
       </form>
-      <button style={{color:"black", background:"red"}} onClick={deleteDepartamento}>Borrar</button>
+      <button style={{color:"black", background:"red"}} onClick={deleteDepartamento}>Borrar</button>{"  "}
       <button style={{color:"black", background:"yellow"}} onClick={updateDepartamento}>Editar</button>
     </div>
   );

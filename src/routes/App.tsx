@@ -29,7 +29,7 @@ const App : React.FC = () => {
       </nav>
       <div className="container mt-3">
         <Switch>
-          <Route exact path="/home" component={Home}/>
+          <Route exact path={[ "/", "/home"]} component={Home}/>
           <Route exact path="/tipos" component={TipoList}/>
           <Route exact path="/addtipo" component={AddTipo}/>
           <Route path="/tipos/:id" component={Tipo}/>

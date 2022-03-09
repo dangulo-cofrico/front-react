@@ -44,7 +44,6 @@ const AddEmpleado: React.FC = () => {
   const [departamentos, setDepartamentos]= useState<Array<IDepartamentoOutputData>>([]);
   const [selectedDepartamento, setSelectedDepartamento]= useState<IDepartamentoOutputData>(initialDep);
   const [estadoCargo, setEstadoCargo]= useState<IEstadoCargo>({cargos:[], nombreCargo:''});
-  //const [empleadodep, setEmpleadodep]=useState<IEmpleadoDep>(initialEmpleadoDep);
   const [cargo, setCargo]= useState('');
 
   const history = useHistory();
@@ -129,20 +128,19 @@ const AddEmpleado: React.FC = () => {
         <label htmlFor="telefono">Teléfono</label>
         <input type="text" className="form-control" id="telefono" required value={empleado.telefono}  onChange={handleInputChange} name="telefono"/><br/>
         
-        <div className="form-group">
-          
-            {/* Dropdowm */}
-            <Dropdown value={selectedDepartamento} options={departamentos} id="codDepartamento" key="codDepartamento" optionLabel="nombre" onChange={e=> setSelectedDepartamento(e.value)} placeholder="Selecciona un Departamento"/><br/>
-            {/* Impunt */}
-            <label htmlFor="cargo">Cargo</label>
-            <input type="text" className="form-control" id="cargo"  name="cargo" required value={cargo} onChange={handleSetCargo} /><br/>
-            <input type="button" value="Insertar" onClick={insertInEmpleadoDep} />
-            <h3>Departamentos del Empleado</h3>
-            <DataTable value={estadoCargo.cargos} className="table dark-table" responsiveLayout="scroll">
-              <Column field="nombre" header="Departamentos"/>
-              <Column field="cargo" header="Cargos"/>
-            </DataTable>
-      </div>  
+        <div className="form-group">  
+          {/* Dropdowm */}
+          <Dropdown value={selectedDepartamento} options={departamentos} id="codDepartamento" key="codDepartamento" optionLabel="nombre" onChange={e=> setSelectedDepartamento(e.value)} placeholder="Selecciona un Departamento"/><br/>
+          {/* Input */}
+          <label htmlFor="cargo">Cargo</label>
+          <input type="text" className="form-control" id="cargo"  name="cargo" required value={cargo} onChange={handleSetCargo} /><br/>
+          <input type="button" value="Insertar" onClick={insertInEmpleadoDep} />
+          <h3>Departamentos del Empleado</h3>
+          <DataTable value={estadoCargo.cargos} className="table dark-table" responsiveLayout="scroll">
+            <Column field="nombre" header="Departamentos"/>
+            <Column field="cargo" header="Cargos"/>
+          </DataTable>
+        </div>  
         </div>
 
         

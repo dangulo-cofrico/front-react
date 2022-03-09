@@ -64,10 +64,8 @@ const Tipo: React.FC<Props>=(props: Props) => {
           />
         </div>
       </form>
-      <button style={{color:"black", background:"red"}} onClick={deleteTipo}>Borrar</button>
-      <button style={{color:"black", background:"yellow"}} onClick={updateTipo}>
-        Editar
-      </button>
+      <button style={{color:"black", background:"red"}} onClick={deleteTipo}>Borrar</button>{"  "}
+      <button style={{color:"black", background:"yellow"}} onClick={updateTipo}>Editar</button>
     </div>
   );
 };

@@ -75,7 +75,7 @@ const Empleado: React.FC<Props>=(props: Props) => {
           <input type="text" className="form-control" id="telefono" name="telefono" value={currentEmpleado.telefono} onChange={handleInputChange}/>
         </div>
       </form>
-      <button style={{color:"black", background:"red"}} onClick={deleteEmpleado}>Borrar</button>
+      <button style={{color:"black", background:"red"}} onClick={deleteEmpleado}>Borrar</button>{"  "}
       <button style={{color:"black", background:"yellow"}} onClick={updateEmpleado}>Editar</button>
     </div>
   );

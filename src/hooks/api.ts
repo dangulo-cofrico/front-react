@@ -9,6 +9,7 @@ export interface IEmpresaOutputData {
   nombre: string,
   direccion: string,
   tipo : ITipoOutputData
+  codsDepartamentos:IDepartamentoOutputData[]
 }
 export interface IEmpresaInputData{
   id?: any | null,
@@ -66,7 +67,7 @@ const removeAllEmpleado = () => {
 };
 
 const findByNombreEmpleado = (nombre: string) => {
-  return http.get<Array<IEmpleadoOutputData>>(`/empleados/nombre/${nombre}`);
+  return http.get<Array<IEmpleadoOutputData>>(`/empleados?nombre=${nombre}`);
 };
 
 const getAllEmpleadoDep = () => {
@@ -110,7 +111,7 @@ const removeAllDepartamento = () => {
 };
 
 const findByNombreDepartamento = (nombre: string) => {
-  return http.get<Array<IDepartamentoOutputData>>(`/departamentos/nombre/${nombre}`);
+  return http.get<Array<IDepartamentoOutputData>>(`/departamentos?nombre=${nombre}`);
 };
   
 const getAllEmpresa = () => {
@@ -138,7 +139,7 @@ const removeAllEmpresa = () => {
 };
 
 const findByNombreEmpresa = (nombre: string) => {
-  return http.get<Array<IEmpresaOutputData>>(`/empresas/nombre/${nombre}`);
+  return http.get<Array<IEmpresaOutputData>>(`/empresas?nombre=${nombre}`);
 };
 
 const getAllTipo = () => {
@@ -166,7 +167,7 @@ const removeAllTipo = () => {
 };
 
 const findByNombreTipo = (nombre: string) => {
-  return http.get<Array<ITipoOutputData>>(`/tipos/nombre/${nombre}`);
+  return http.get<Array<ITipoOutputData>>(`/tipos?nombre=${nombre}`);
 };
   
 export const useTipoCRUD = {
