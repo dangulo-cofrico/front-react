@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { ITipoOutputData,  useTipoCRUD,useDepartamentoCRUD, useEmpresaCRUD, IDepartamentoOutputData, IEmpresaOutputData, ICodsDepartamentoData, IEmpresaInputData } from "../../hooks/api";
+import { ITipoOutputData,  useTipoCRUD,useDepartamentoCRUD, useEmpresaCRUD, IDepartamentoOutputData, IEmpresaInputData } from "../../hooks/api";
 import {Dropdown} from 'primereact/dropdown'
 import { MultiSelect } from 'primereact/multiselect'
 import "./AddEmpresa.css"
